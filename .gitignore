@@ -1,2 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+out/
 *.class
 *.log
+hs_err_pid*
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+*~
+.DS_Store
