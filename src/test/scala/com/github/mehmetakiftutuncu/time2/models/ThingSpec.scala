@@ -8,11 +8,12 @@ import io.circe.syntax._
 
 class ThingSpec extends UnitSpec {
   val when: ZonedDateTime = ZonedDateTime.of(2018, 1, 18, 17, 42, 35, 0, ZoneId.ofOffset("", ZoneOffset.ofHours(3)))
-  val thing: Thing        = Thing(1, "Drink Water!", when)
+  val who: User           = User(1, "akif@time2.com")
+  val thing: Thing        = Thing(1, "Drink Water!", when, who)
 
   "Thing" should {
     "be converted to Json properly" in {
-      val expectedJson = """{"id":1,"what":"Drink Water!","when":"2018-01-18T17:42:35+03:00"}"""
+      val expectedJson = s"""{"id":1,"what":"Drink Water!","when":"2018-01-18T17:42:35+03:00","who":$who}"""
 
       thing.toJson.noSpaces shouldBe expectedJson
     }
@@ -29,7 +30,8 @@ class ThingSpec extends UnitSpec {
       val thingJson = Json.obj(
         "id"   -> 1.asJson,
         "what" -> "Drink Water!".asJson,
-        "when" -> "2018-01-18T17:42:35+03:00".asJson
+        "when" -> "2018-01-18T17:42:35+03:00".asJson,
+        "who"  -> who.toJson
       )
 
       Thing.fromJson(thingJson).right.get shouldBe thing
