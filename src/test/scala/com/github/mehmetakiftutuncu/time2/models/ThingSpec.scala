@@ -14,7 +14,7 @@ class ThingSpec extends UnitSpec {
     "be converted to Json properly" in {
       val expectedJson = """{"id":1,"what":"Drink Water!","when":"2018-01-18T17:42:35+03:00"}"""
 
-      Thing.toJson(thing).noSpaces shouldBe expectedJson
+      thing.toJson.noSpaces shouldBe expectedJson
     }
   }
 
