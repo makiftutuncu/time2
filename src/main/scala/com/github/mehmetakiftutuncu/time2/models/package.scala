@@ -15,7 +15,7 @@ package object models {
     Decoder.decodeString.emapTry(s => Try(ZonedDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME)))
 
   trait Model[M] { self: M =>
-    val jsonEncoder: Encoder[M]
+    implicit val jsonEncoder: Encoder[M]
 
     def toJson: Json = jsonEncoder(self)
 
@@ -23,6 +23,7 @@ package object models {
   }
 
   trait JsonSupport[T <: Model[T]] {
+    val jsonEncoder: Encoder[T]
     val jsonDecoder: Decoder[T]
 
     def fromJson(json: Json): Decoder.Result[T] = jsonDecoder.decodeJson(json)
