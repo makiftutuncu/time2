@@ -59,7 +59,7 @@ class RepetitionUnitSpec extends UnitSpec {
       RepetitionUnit.fromJson(notARepetitionUnitJson).isLeft shouldBe true
     }
 
-    "work correctly for a valid" when {
+    "work correctly for a valid Json" when {
       "it is a Minutes Json" in {
         val minutesJson = Json.obj("unit" -> "minutes".asJson, "amount" -> 6.asJson)
 
