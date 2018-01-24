@@ -13,13 +13,13 @@ class PlanSpec extends UnitSpec {
   val repeatNTimes = Repetition.RepeatNTimes(3, RepetitionUnit.Days(3))
   val repeatUntil  = Repetition.RepeatUntil(end, RepetitionUnit.Hours(4))
 
-  val noRepetitionPlan = Plan(start, noRepetition)
-  val repeatNTimesPlan = Plan(start, repeatNTimes)
-  val repeatUntilPlan  = Plan(start, repeatUntil)
+  val noRepetitionPlan = Plan(1, start, noRepetition)
+  val repeatNTimesPlan = Plan(2, start, repeatNTimes)
+  val repeatUntilPlan  = Plan(3, start, repeatUntil)
 
   "Plan" should {
     "be converted to Json properly" in {
-      val expectedJson = s"""{"start":"2018-01-24T00:00:00+03:00","repetition":$noRepetition}"""
+      val expectedJson = s"""{"id":1,"start":"2018-01-24T00:00:00+03:00","repetition":$noRepetition}"""
 
       noRepetitionPlan.toJson.noSpaces shouldBe expectedJson
     }
@@ -33,7 +33,11 @@ class PlanSpec extends UnitSpec {
     }
 
     "work correctly for a valid Json" in {
-      val repeatNTimesPlanJson = Json.obj("start" -> start.asJson, "repetition" -> repeatNTimes.toJson)
+      val repeatNTimesPlanJson = Json.obj(
+        "id"         -> 2.asJson,
+        "start"      -> start.asJson,
+        "repetition" -> repeatNTimes.toJson
+      )
 
       Plan.fromJson(repeatNTimesPlanJson).right.get shouldBe repeatNTimesPlan
     }

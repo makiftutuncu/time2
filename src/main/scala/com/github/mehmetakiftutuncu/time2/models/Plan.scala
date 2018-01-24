@@ -6,7 +6,9 @@ import io.circe.{Decoder, Encoder}
 
 import scala.annotation.tailrec
 
-final case class Plan(start: ZonedDateTime, repetition: Repetition) extends Model[Plan] {
+final case class Plan(id: Long,
+                      start: ZonedDateTime,
+                      repetition: Repetition) extends Model[Plan] {
   override implicit val jsonEncoder: Encoder[Plan] = Plan.jsonEncoder
 
   val instances: List[ZonedDateTime] = repetition match {
@@ -35,12 +37,12 @@ object Plan extends JsonSupport[Plan] {
   override val jsonEncoder: Encoder[Plan] = {
     implicit val repetitionEncoder: Encoder[Repetition] = Repetition.jsonEncoder
 
-    Encoder.forProduct2("start", "repetition")(p => p.start -> p.repetition)
+    Encoder.forProduct3("id", "start", "repetition")(p => (p.id, p.start, p.repetition))
   }
 
   override val jsonDecoder: Decoder[Plan] = {
     implicit val repetitionDecoder: Decoder[Repetition] = Repetition.jsonDecoder
 
-    Decoder.forProduct2("start", "repetition")(Plan.apply)
+    Decoder.forProduct3("id", "start", "repetition")(Plan.apply)
   }
 }
